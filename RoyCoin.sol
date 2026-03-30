@@ -1,21 +1,24 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
+// Importujemy sprawdzone standardy (Remix sam je pobierze)
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-// Twój kontrakt RoyCoin
-contract RoyCoin is ERC20, Ownable {
-    
-    // Konstruktor: Wywołuje się tylko RAZ przy narodzinach tokena
+contract RoyCoin is ERC20, ERC20Burnable, Ownable {
+
+    // Konstruktor: Tworzy token o nazwie RoyCoin i symbolu ROY
+    // Ownable(msg.sender) ustawia Twój portfel jako szefa (Właściciela)
     constructor() ERC20("RoyCoin", "ROY") Ownable(msg.sender) {
-        // Tworzymy 1,000,000 tokenów i wysyłamy je na Twój portfel
-        // decimals() to 18 miejsc po przecinku (standard)
+        // Generujemy 1,000,000 tokenów na start
+        // 18 miejsc po przecinku (decimals) to standard jak w ETH
         _mint(msg.sender, 1000000 * 10 ** decimals());
     }
 
-    // Funkcja spalania: Możesz spalić swoje tokeny, żeby zmniejszyć podaż (Burn)
-    function burn(uint256 amount) public {
-        _burn(msg.sender, amount);
+    // Funkcja dla Ciebie (Właściciela), jeśli kiedyś zechcesz dodać więcej monet
+    // Jeśli jej nie chcesz, po prostu usuń te 3 linie
+    function mint(address to, uint256 amount) public onlyOwner {
+        _mint(to, amount);
     }
 }
