@@ -1,1 +1,1 @@
-# RoyCoin
+RoyCoin is a new cryptocurrency. RoyCoin will be run on SOL. For more information, visit the YouTube channel: 
